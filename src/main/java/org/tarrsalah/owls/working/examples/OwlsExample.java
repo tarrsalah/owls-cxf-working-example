@@ -10,8 +10,12 @@ import java.net.URI;
 import org.glassfish.grizzly.http.server.CLStaticHttpHandler;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.http.server.NetworkListener;
+import org.mindswap.exceptions.ExecutionException;
 import org.mindswap.owl.OWLFactory;
+import org.mindswap.owl.OWLIndividualList;
 import org.mindswap.owl.OWLKnowledgeBase;
+import org.mindswap.owls.OWLSFactory;
+import org.mindswap.owls.process.execution.ProcessExecutionEngine;
 import org.mindswap.owls.service.Service;
 
 /**
@@ -20,23 +24,32 @@ import org.mindswap.owls.service.Service;
  */
 public class OwlsExample {
 
-	public static void main(String[] args) throws IOException, InterruptedException {
+	public static final URI AURI = URI.create("http://127.0.0.1/services/1.2/ZipCodeFinder.owl");
+
+	public static void main(String[] args) throws IOException, InterruptedException, ExecutionException {
+		// My proxy configuration 
+		System.setProperty("http.proxyHost", "127.0.0.1");
+		System.setProperty("http.proxyPort", "5477");
+		
+		
 		HttpServer httpServer = new HttpServer();
-		NetworkListener networkListener = new NetworkListener("grizzly", "0.0.0.0", 8080);			
+		NetworkListener networkListener = new NetworkListener("grizzly", "0.0.0.0", 8080);
 		httpServer.getServerConfiguration().addHttpHandler(new CLStaticHttpHandler(OwlsExample.class.getClassLoader(), "static/"), "/");
 
 		httpServer.addListener(networkListener);
 		httpServer.start();
-		Play();
+
 		Thread.sleep(2 * 1000);
+		Play();
 		Thread.currentThread().join();
 	}
 
-	public static final URI AURI = URI.create("http://127.0.0.1/services/1.1/BookFinder.owls");
+	public static void Play() throws IOException, ExecutionException {
+		ProcessExecutionEngine exec = OWLSFactory.createExecutionEngine();
 
-	public static void Play() throws IOException {
 		OWLKnowledgeBase kb = OWLFactory.createKB();
-		Service service = kb.readService(AURI);
-		System.out.println(service.toPrettyString());
+		OWLIndividualList<Service> services = kb.readAllServices(AURI);
+		System.out.println(services.toString());
+
 	}
 }
