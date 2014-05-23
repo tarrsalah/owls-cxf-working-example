@@ -1,0 +1,104 @@
+<rdf:RDF
+  xmlns:rdf ="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:daml="http://www.daml.org/2001/03/daml+oil#"
+>
+
+<daml:Ontology rdf:about="">
+  <daml:versionInfo>$Id: zipcode-ont.daml,v 1.4 2002/02/28 10:25:33 mdean Exp $</daml:versionInfo>
+  <rdfs:comment>United States Postal Service Zone Improvement Program (ZIP) Code Ontology</rdfs:comment>
+</daml:Ontology>
+
+<rdfs:Class rdf:ID="ZipCode">
+  <rdfs:subClassOf>
+    <daml:Restriction>
+      <daml:onProperty rdf:resource="#zip"/>
+      <daml:toClass rdf:resource="http://www.w3.org/2000/10/XMLSchema#string"/>
+    </daml:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <daml:Restriction daml:cardinality="1">
+      <daml:onProperty rdf:resource="#zip"/>
+    </daml:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <daml:Restriction>
+      <daml:onProperty rdf:resource="#association"/>
+      <daml:toClass rdf:resource="#Association"/>
+    </daml:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <daml:Restriction>
+      <daml:onProperty rdf:resource="#defaultAssociation"/>
+      <daml:toClass rdf:resource="#Association"/>
+    </daml:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <daml:Restriction daml:cardinality="1">
+      <daml:onProperty rdf:resource="#defaultAssociation"/>
+    </daml:Restriction>
+  </rdfs:subClassOf>
+</rdfs:Class>
+
+<rdfs:Class rdf:ID="Association">
+  <rdfs:subClassOf>
+    <daml:Restriction>
+      <daml:onProperty rdf:resource="#city"/>
+      <daml:toClass rdf:resource="http://www.w3.org/2000/10/XMLSchema#string"/>
+    </daml:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <daml:Restriction daml:cardinality="1">
+      <daml:onProperty rdf:resource="#city"/>
+    </daml:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <daml:Restriction>
+      <daml:onProperty rdf:resource="#state"/>
+      <daml:toClass rdf:resource="http://www.w3.org/2000/10/XMLSchema#string"/>
+    </daml:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <daml:Restriction daml:cardinality="1">
+      <daml:onProperty rdf:resource="#state"/>
+    </daml:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <daml:Restriction>
+      <daml:onProperty rdf:resource="#acceptable"/>
+      <daml:toClass rdf:resource="http://www.w3.org/2000/10/XMLSchema#boolean"/>
+    </daml:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <daml:Restriction daml:cardinality="1">
+      <daml:onProperty rdf:resource="#acceptable"/>
+    </daml:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <daml:Restriction>
+      <daml:onProperty rdf:resource="#type"/>
+      <daml:toClass rdf:resource="http://www.w3.org/2000/10/XMLSchema#string"/>
+    </daml:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <daml:Restriction daml:cardinality="1">
+      <daml:onProperty rdf:resource="#type"/>
+    </daml:Restriction>
+  </rdfs:subClassOf>
+</rdfs:Class>
+
+<daml:ObjectProperty rdf:ID="association"/>
+<daml:ObjectProperty rdf:ID="defaultAssociation">
+  <rdfs:subPropertyOf rdf:resource="#association"/>
+</daml:ObjectProperty>
+
+<daml:DatatypeProperty rdf:ID="city"/>
+<daml:DatatypeProperty rdf:ID="state"/>
+<daml:DatatypeProperty rdf:ID="acceptable"/>
+<daml:DatatypeProperty rdf:ID="type"/>
+<daml:DatatypeProperty rdf:ID="zip"/>
+
+</rdf:RDF>
+
+
+
