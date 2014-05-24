@@ -21,11 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.tarrsalah.owls.working.examples.services;
+package org.tarrsalah.owls.examples.services;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
+import org.tarrsalah.owls.examples.Bootstrap;
 
 /**
  * AddService.java (UTF-8)
@@ -37,9 +38,16 @@ import javax.jws.WebService;
 @WebService
 public class AddService {
 
-	@WebMethod
+	public static final String ROUTE = "/add";
+	public static final String OWLS_FILE = Bootstrap.OWLS_DIR + "/add.owl";
+	public static final String WSDL_FILE = Bootstrap.HOST + ROUTE + "?wsdl";
+
+	public static void main(String[] args) {
+		System.out.println(WSDL_FILE);
+	}
+
+	@WebMethod(operationName = "add")
 	public int Add(@WebParam(name = "value1") int value1, @WebParam(name = "value2") int value2) {
 		return value1 + value2;
 	}
 }
-

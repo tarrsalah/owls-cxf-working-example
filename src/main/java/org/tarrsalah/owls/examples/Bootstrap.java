@@ -1,5 +1,5 @@
 /*
- * The MIT License (MIT)
+ * The MIT License (MIT),
  *
  * Copyright (c) 2014 tarrsalah@gmail.com
  *
@@ -21,16 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.tarrsalah.owls.working.examples;
+package org.tarrsalah.owls.examples;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Properties;
 import org.glassfish.grizzly.http.server.CLStaticHttpHandler;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.http.server.NetworkListener;
 import org.glassfish.grizzly.jaxws.JaxwsHandler;
-import org.tarrsalah.owls.working.examples.services.AddService;
-import org.tarrsalah.owls.working.examples.services.HelloService;
+import org.tarrsalah.owls.examples.services.AddService;
+import org.tarrsalah.owls.examples.services.Hello;
+import org.tarrsalah.owls.examples.services.Triple;
+import org.tarrsalah.owls.examples.services.clients.owls.HelloServiceOWLSClient;
 
 /**
  * Bootstrap.java (UTF-8)
@@ -41,19 +43,39 @@ import org.tarrsalah.owls.working.examples.services.HelloService;
  */
 public class Bootstrap {
 
+	public static final String HOST = "http://127.0.0.1";
+	public static final String OWLS_DIR = String.join("/", "static", "services", "1.2");
 
-	public void start(List<Player> players) throws IOException, InterruptedException {		
-		
+	public static void main(String[] args) throws IOException, InterruptedException {
+		Properties properties = System.getProperties();
+		properties.put("org.apache.cxf.stax.allowInsecureParser", "1");
+		System.setProperties(properties);
+		new Bootstrap().start();
+	}
+
+	public void start() throws IOException, InterruptedException {
+
 		HttpServer httpServer = new HttpServer();
 		NetworkListener networkListener = new NetworkListener("grizzly", "0.0.0.0", 8080);
-		httpServer.getServerConfiguration().addHttpHandler(new CLStaticHttpHandler(Bootstrap.class.getClassLoader(), "static/"), "/");
-		httpServer.getServerConfiguration().addHttpHandler(new JaxwsHandler(new AddService()), "/add");
-		httpServer.getServerConfiguration().addHttpHandler(new JaxwsHandler(new HelloService()), "/hello");
-
 		httpServer.addListener(networkListener);
+		httpServer.getServerConfiguration().addHttpHandler(new CLStaticHttpHandler(Bootstrap.class.getClassLoader(), "static/"), "/");
+		httpServer.getServerConfiguration().addHttpHandler(new JaxwsHandler(new AddService()), AddService.ROUTE);
+		httpServer.getServerConfiguration().addHttpHandler(new JaxwsHandler(new Triple()), Triple.ROUTE);
+		httpServer.getServerConfiguration().addHttpHandler(new JaxwsHandler(new Hello()), Hello.ROUTE);
+
 		httpServer.start();
-		Thread.sleep(2 * 1000);
-		players.stream().parallel().forEach((player) -> player.play());
+		Thread.sleep(2 * 1000); // The services are up and running
+		new HelloServiceOWLSClient().start();
 		Thread.currentThread().join();
+	}
+
+	public static void set() {
+		System.setProperty("http.proxyHost", "127.0.0.1");
+		System.setProperty("http.proxyPort", "5477");
+	}
+
+	public static void unset() {
+		System.setProperty("http.proxyHost", "");
+		System.setProperty("http.proxyPort", "");
 	}
 }

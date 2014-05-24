@@ -21,41 +21,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.tarrsalah.owls.working.examples.services;
+package org.tarrsalah.owls.examples.services;
 
-import java.util.Arrays;
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.apache.cxf.endpoint.Client;
-import org.apache.cxf.jaxws.endpoint.dynamic.JaxWsDynamicClientFactory;
-import org.tarrsalah.owls.working.examples.Env;
-import org.tarrsalah.owls.working.examples.Player;
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
+import javax.jws.WebService;
+import org.tarrsalah.owls.examples.Bootstrap;
 
 /**
- * AddServiceClient.java (UTF-8)
- *
- * May 21, 2014
  *
  * @author tarrsalah.org
  */
-public class AddServiceClient implements Player {
+@WebService(serviceName = "Triple")
+public class Triple {
 
-	private final static Logger logger = Logger.getLogger(AddServiceClient.class.getName());
+	public static final String ROUTE = "/triple";
+	public static final String OWLS_FILE = Bootstrap.OWLS_DIR + "/triple.owl";
+	public static final String WSDL_FILE = Bootstrap.HOST + ROUTE + "?wsdl";
 
-	@Override
-	public void play() {
-		try {
-			Properties properties = System.getProperties();
-			properties.put("org.apache.cxf.stax.allowInsecureParser", "1");
-
-			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
-			Client client = dcf.createClient(Env.ADD_SERVICE_WSDL.toURL());
-
-			Object[] res = client.invoke("Add", new Integer(1), new Integer(1));
-			logger.log(Level.INFO,	String.join(" ", "The result of the service call is", Arrays.toString(res)));
-		} catch (Exception ex) {
-			logger.log(Level.SEVERE, "Can't play well with this " + AddServiceClient.class.getCanonicalName(), ex);
-		}
+	/**
+	 * This is a sample web service operation
+	 *
+	 * @param val
+	 * @return val * 3
+	 */
+	@WebMethod(operationName = "tiple")
+	public int triple(@WebParam(name = "value") int val) {
+		return val * 3;
 	}
 }

@@ -11,7 +11,7 @@
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-	 <netbeans.hint.license>LICENSE</netbeans.hint.license>
+		<netbeans.hint.license>LICENSE</netbeans.hint.license>
 	</properties>
 	<dependencies>
 
@@ -19,12 +19,12 @@
 			<groupId>ch.unibas.on</groupId>
 			<artifactId>owls-api</artifactId>
 			<version>3.1-SNAPSHOT</version>
-		 <exclusions>
-		  <exclusion>
-		   <artifactId>axis-wsdl4j</artifactId>
-		   <groupId>axis</groupId>
-		  </exclusion>
-		 </exclusions>
+			<exclusions>
+				<exclusion>
+					<artifactId>axis-wsdl4j</artifactId>
+					<groupId>axis</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>		
 		
 		<dependency>
@@ -55,6 +55,12 @@
 			<type>jar</type>
 			<version>2.7.11</version>				 		  		
 		</dependency>
+	 <dependency>
+	  <artifactId>axis</artifactId>
+	  <groupId>org.apache.axis</groupId>
+	  <type>jar</type>
+	  <version>1.4</version>
+	 </dependency>
 	</dependencies>
 					
 	<repositories>	

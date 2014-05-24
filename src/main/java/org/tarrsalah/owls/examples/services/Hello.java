@@ -21,28 +21,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.tarrsalah.owls.working.examples;
+package org.tarrsalah.owls.examples.services;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Properties;
-import org.tarrsalah.owls.working.examples.services.AddServiceClient;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
+import javax.jws.WebService;
+import org.tarrsalah.owls.examples.Bootstrap;
 
 /**
- * Main.java (UTF-8)
- *
- * May 21, 2014
  *
  * @author tarrsalah.org
  */
-public class Main {
+@WebService(serviceName = "Hello")
+public class Hello {
 
-	public static void main(String[] args) throws IOException, InterruptedException {
-		Properties properties = System.getProperties();
-		properties.put("org.apache.cxf.stax.allowInsecureParser", "1");
-		System.setProperties(properties);
-		Arrays.asList(new AddServiceClient());		
-		new Bootstrap().start(Arrays.asList(new OWLSSamples()));
-//		new Bootstrap().start(Arrays.asList(new WSDL2OWLS()));
+	private static final Logger LOG = Logger.getLogger(Hello.class.getName());
+
+	public static final String ROUTE = "/hello";
+	public static final String OWLS_FILE = Bootstrap.OWLS_DIR + "/hello.owl";
+	public static final String WSDL_FILE = Bootstrap.HOST + ROUTE + "?wsdl";
+
+	/**
+	 * This is a sample web service operation
+	 *
+	 * @param txt
+	 * @return
+	 */
+	@WebMethod(operationName = "hello")
+	public String hello(@WebParam(name = "name") String txt) {
+		LOG.log(Level.INFO, "The first param: is ".concat((txt == null) ? "*null*" : txt));
+		return "Hello " + txt + " !";
 	}
 }
