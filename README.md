@@ -1,4 +1,4 @@
-owls-example
-============
+owls-cxf-working-example
+========================
 
-Trying to get owls running !
+grizzly/cxf/owls up and running.
