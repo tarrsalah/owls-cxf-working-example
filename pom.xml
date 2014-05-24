@@ -8,6 +8,7 @@
 	</parent>
 	<artifactId>owls-cxf-working-example</artifactId>
 	<packaging>jar</packaging>
+	
     <build>
         <plugins>
             <plugin>
@@ -17,10 +18,10 @@
                 <executions>
                     <execution>
                         <goals>
-                            <goal>java</goal>
+                            <goal>exec</goal>
                         </goals>
                         <id>java</id>
-                    </execution>
+                    </execution>																				
                 </executions>
                 <configuration>
 									<mainClass>org.tarrsalah.owls.examples.Bootstrap</mainClass>

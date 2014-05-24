@@ -57,13 +57,13 @@ public class HelloServiceOWLSClient {
 			OWLKnowledgeBase kb = OWLFactory.createKB();
 			Service service = kb.readService(URI.create(Hello.OWLS_FILE));
 			Process process = service.getProcess();
-			ProcessExecutionEngine executionEngine = OWLSFactory.createExecutionEngine();						
+			ProcessExecutionEngine executionEngine = OWLSFactory.createExecutionEngine();
 
 			ValueMap<Input, OWLValue> inputs = new ValueMap<>();
 			inputs.setValue(process.getInput("name"), kb.createDataValue("tarrsalah"));
 			LOG.log(Level.INFO, inputs.debugString());
 
-			ValueMap<Output, OWLValue> outputs = executionEngine.execute(process, inputs, kb);
+			ValueMap<Output, OWLValue> outputs = executionEngine.execute(process, inputs, kb);			
 			LOG.log(Level.INFO, outputs.debugString());
 
 		} catch (IOException | ExecutionException ex) {
