@@ -25,18 +25,23 @@ package org.tarrsalah.owls.examples;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
+import javax.jws.WebResult;
 import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
+import javax.jws.soap.SOAPBinding.Style;
 
 /**
  *
  * @author tarrsalah.org
  */
-@WebService(serviceName = "Hello", targetNamespace = HelloService.WSDL_FILE)
+@WebService(serviceName = "Hello", targetNamespace = "http://127.0.0.1/hello")
+@SOAPBinding(style = Style.RPC)
+
 public class HelloService {
 
 	public static final String ROUTE = "/hello";
 	public static final String OWLS_FILE = Bootstrap.OWLS_DIR + "/hello.owl";
-	public static final String WSDL_FILE = "HTTP://127.0.0.1/hello?wsdl";
+	public static final String WSDL_FILE = "http://127.0.0.1/hello?wsdl";
 
 	/**
 	 * This is a sample web service operation
@@ -45,6 +50,7 @@ public class HelloService {
 	 * @return
 	 */
 	@WebMethod(operationName = "hello")
+	@WebResult(name="greeting")
 	public String hello(@WebParam(name = "name") String name) {
 		return "Hello " + name;
 	}
