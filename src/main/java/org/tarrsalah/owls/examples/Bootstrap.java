@@ -50,7 +50,6 @@ public class Bootstrap {
 	}
 
 	public void start() throws IOException, InterruptedException {
-//		set();
 		HttpServer httpServer = new HttpServer();
 		NetworkListener networkListener = new NetworkListener("grizzly", "0.0.0.0", 8080);
 		httpServer.addListener(networkListener);
@@ -59,10 +58,9 @@ public class Bootstrap {
 
 		httpServer.start();
 		Thread.sleep(2 * 1000); // The services are up and running
-//		new HelloCXFClient().start();
 		System.out.println(" --- OWLS client --- ");
 		new HelloServiceOWLSClient().start();
-		System.out.println("-----");		
+		System.out.println("-----");
 		Thread.currentThread().join();
 	}
 
