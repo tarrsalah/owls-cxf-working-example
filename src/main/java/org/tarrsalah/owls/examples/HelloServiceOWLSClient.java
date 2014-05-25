@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.tarrsalah.owls.examples.services.clients.owls;
+package org.tarrsalah.owls.examples;
 
 import java.io.IOException;
 import java.net.URI;
@@ -32,47 +32,44 @@ import org.mindswap.owl.OWLFactory;
 import org.mindswap.owl.OWLKnowledgeBase;
 import org.mindswap.owl.OWLValue;
 import org.mindswap.owls.OWLSFactory;
+import org.mindswap.owls.process.Process;
 import org.mindswap.owls.process.execution.ProcessExecutionEngine;
 import org.mindswap.owls.process.variable.Input;
 import org.mindswap.owls.process.variable.Output;
 import org.mindswap.owls.service.Service;
 import org.mindswap.query.ValueMap;
-import org.tarrsalah.owls.examples.services.AddService;
 
 /**
- * AddServiceOWLSClient.java (UTF-8)
+ * HelloServiceOWLSClient.java (UTF-8)
  *
  * May 24, 2014
  *
  * @author tarrsalah.org
  */
-public class AddServiceOWLSClient {
+public class HelloServiceOWLSClient {
 
-	private static final Logger LOG = Logger.getLogger(AddServiceOWLSClient.class.getName());
+	private static final Logger LOG = Logger.getLogger(HelloServiceOWLSClient.class.getName());
 
 	public void start() {
 		try {
-//			ProxyFucker.fuck();
-			OWLKnowledgeBase kb = OWLFactory.createKB();
-			Service service = kb.readService(URI.create(AddService.OWLS_FILE));
-			org.mindswap.owls.process.Process process = service.getProcess();
 
+			OWLKnowledgeBase kb = OWLFactory.createKB();
+			Service service = kb.readService(URI.create(HelloService.OWLS_FILE));
+			Process process = service.getProcess();			
 			ProcessExecutionEngine executionEngine = OWLSFactory.createExecutionEngine();
 
 			ValueMap<Input, OWLValue> inputs = new ValueMap<>();
-			inputs.setValue(process.getInputs().get(0), kb.createDataValue(2));
-			inputs.setValue(process.getInputs().get(1), kb.createDataValue(2));
+			inputs.setValue(process.getInput("name"), kb.createDataValue("tarrsalah"));
+			LOG.log(Level.INFO, inputs.debugString());
 
 			ValueMap<Output, OWLValue> outputs = executionEngine.execute(process, inputs, kb);
 
-			System.out.println(inputs.getValues());
-			System.out.println(outputs.getValues().toString());
+			LOG.log(Level.INFO, outputs.debugString());
 
 		} catch (IOException | ExecutionException ex) {
 			LOG.log(Level.SEVERE, ex.toString());
 		} finally {
-//			ProxyFucker.unfuck();
+
 		}
 	}
-
 }

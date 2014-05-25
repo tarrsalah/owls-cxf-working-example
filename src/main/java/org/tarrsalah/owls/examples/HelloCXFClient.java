@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.tarrsalah.owls.examples.services.clients.cxf;
+package org.tarrsalah.owls.examples;
 
 import java.net.URL;
 import java.util.Arrays;
@@ -30,18 +30,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.jaxws.endpoint.dynamic.JaxWsDynamicClientFactory;
-import org.tarrsalah.owls.examples.services.AddService;
 
 /**
- * AddServiceCXFClient.java (UTF-8)
-
- May 21, 2014
+ * HelloCXFClient.java (UTF-8)
+ *
+ * May 21, 2014
  *
  * @author tarrsalah.org
  */
-public class AddServiceCXFClient {
+public class HelloCXFClient {
 
-	private final static Logger logger = Logger.getLogger(AddServiceCXFClient.class.getName());
+	private final static Logger logger = Logger.getLogger(HelloCXFClient.class.getName());
 
 	public void start() {
 		try {
@@ -49,12 +48,12 @@ public class AddServiceCXFClient {
 			properties.put("org.apache.cxf.stax.allowInsecureParser", "1");
 
 			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
-			Client client = dcf.createClient(new URL(AddService.WSDL_FILE));
+			Client client = dcf.createClient(new URL(HelloService.WSDL_FILE));
 
-			Object[] res = client.invoke("add", new Integer(1), new Integer(2));
-			logger.log(Level.INFO, String.join(" ", "The result of the service call is", Arrays.toString(res)));
+			Object[] res = client.invoke("hello", "tarrsalah");
+			logger.log(Level.INFO, Arrays.toString(res));
 		} catch (Exception ex) {
-			logger.log(Level.SEVERE, "Can't play well with this " + AddServiceCXFClient.class.getCanonicalName(), ex);
+			logger.log(Level.SEVERE, "Can't play well with this " + HelloCXFClient.class.getCanonicalName(), ex);
 		}
 	}
 }

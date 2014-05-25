@@ -29,10 +29,6 @@ import org.glassfish.grizzly.http.server.CLStaticHttpHandler;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.http.server.NetworkListener;
 import org.glassfish.grizzly.jaxws.JaxwsHandler;
-import org.tarrsalah.owls.examples.services.AddService;
-import org.tarrsalah.owls.examples.services.Hello;
-import org.tarrsalah.owls.examples.services.Triple;
-import org.tarrsalah.owls.examples.services.clients.owls.HelloServiceOWLSClient;
 
 /**
  * Bootstrap.java (UTF-8)
@@ -54,18 +50,19 @@ public class Bootstrap {
 	}
 
 	public void start() throws IOException, InterruptedException {
-
+//		set();
 		HttpServer httpServer = new HttpServer();
 		NetworkListener networkListener = new NetworkListener("grizzly", "0.0.0.0", 8080);
 		httpServer.addListener(networkListener);
 		httpServer.getServerConfiguration().addHttpHandler(new CLStaticHttpHandler(Bootstrap.class.getClassLoader(), "static/"), "/");
-		httpServer.getServerConfiguration().addHttpHandler(new JaxwsHandler(new AddService()), AddService.ROUTE);
-		httpServer.getServerConfiguration().addHttpHandler(new JaxwsHandler(new Triple()), Triple.ROUTE);
-		httpServer.getServerConfiguration().addHttpHandler(new JaxwsHandler(new Hello()), Hello.ROUTE);
+		httpServer.getServerConfiguration().addHttpHandler(new JaxwsHandler(new HelloService()), HelloService.ROUTE);
 
 		httpServer.start();
 		Thread.sleep(2 * 1000); // The services are up and running
+//		new HelloCXFClient().start();
+		System.out.println(" --- OWLS client --- ");
 		new HelloServiceOWLSClient().start();
+		System.out.println("-----");		
 		Thread.currentThread().join();
 	}
 

@@ -21,32 +21,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.tarrsalah.owls.examples.services;
+package org.tarrsalah.owls.examples;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
-import org.tarrsalah.owls.examples.Bootstrap;
 
 /**
  *
  * @author tarrsalah.org
  */
-@WebService(serviceName = "Triple")
-public class Triple {
+@WebService(serviceName = "Hello", targetNamespace = HelloService.WSDL_FILE)
+public class HelloService {
 
-	public static final String ROUTE = "/triple";
-	public static final String OWLS_FILE = Bootstrap.OWLS_DIR + "/triple.owl";
-	public static final String WSDL_FILE = Bootstrap.HOST + ROUTE + "?wsdl";
+	public static final String ROUTE = "/hello";
+	public static final String OWLS_FILE = Bootstrap.OWLS_DIR + "/hello.owl";
+	public static final String WSDL_FILE = "HTTP://127.0.0.1/hello?wsdl";
 
 	/**
 	 * This is a sample web service operation
 	 *
-	 * @param val
-	 * @return val * 3
+	 * @param name
+	 * @return
 	 */
-	@WebMethod(operationName = "tiple")
-	public int triple(@WebParam(name = "value") int val) {
-		return val * 3;
+	@WebMethod(operationName = "hello")
+	public String hello(@WebParam(name = "name") String name) {
+		return "Hello " + name;
 	}
 }
